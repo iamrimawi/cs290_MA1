@@ -1,4 +1,5 @@
 <!--Programmer: Chris Tralie!-->
+<!--Purpose: Front end visualizer/debugger for projection function!-->
 <html>
 <head>
 <!-- This is how you include external scripts in Javascript !-->
@@ -49,65 +50,62 @@
 <tr><td><h2><font color = "#00ffff"><u>Perpendicular projection u onto v:</u> </h2></td><td><input type="text" id="projPerpAnswer" size="10"> </input></td></tr>
 </table>
 
-<BR><BR><HR>
 
-<h2><a name = "angle">Task 1: Angle Computation (5 points)</a></h2>
-
-<table>
-<tr>
-<td>
-<!--Input Region!-->
-<table>
-<tr>
-<td><h2><font color = "#0000ff">a:</u> </h2></td>
-<td><h1>(</h1></td><td><input type="text" id = "ax_2" size="3"></input></td><td><h1>,</h1></td>
-<td><input type="text" id = "ay_2" size="3"></input></td><td><h1>,</h1></td>
-<td><input type="text" id = "az_2" size="3"></input></td>
-<td><h1>)</h1></td>
-</tr>
-<tr>
-<td><h2><font color = "#ff0000">b:</font> </h2></td>
-<td><h1>(</h1></td><td><input type="text" id = "bx_2" size="3"></input></td><td><h1>,</h1></td>
-<td><input type="text" id = "by_2" size="3"></input></td><td><h1>,</h1></td>
-<td><input type="text" id = "bz_2" size="3"></input></td>
-<td><h1>)</h1></td>
-</tr>
-<tr>
-<td><h2><font color = "#ff00ff">c:</font> </h2></td>
-<td><h1>(</h1></td><td><input type="text" id = "cx_2" size="3"></input></td><td><h1>,</h1></td>
-<td><input type="text" id = "cy_2" size="3"></input></td><td><h1>,</h1></td>
-<td><input type="text" id = "cz_2" size="3"></input></td>
-<td><h1>)</h1></td>
-</tr>
-</table>
-</td>
-<td>
-<!--Visualization Region!-->
-<table border = "1" width = 500 height = 500>
-<tr><td>
-<div id = "angleVis">Visualization goes here once you compute the angle</div>
-</td></tr>
-</table>
-</td>
-</tr>
-</table>
-<button type = "button" onclick = "callComputeAngle()">Compute angle</button>
-<table>
-<tr><td><h2>Angle: </h2></td><td><input type="text" id="angleAnswer" size="10"> </input></td></tr>
-</table>
-
-<BR><BR><HR>
-
-<h2><a name = "pointinfront">Task 2: Point Above Or Below Plane? (5 points)</h2>
-
-<h2><a name = "area">Task 3: Area Computation (5 points)</a></h2>
-
-<h2><a name = "segment">Task 4: Line Segment Intersection (10 Points)</a></h2>
-
-<h2><a name = "circumcenter">Task 5: Triangle Circumscribed Circle (15 Points)</a></h2>
-
-<h2><a name = "circumsphere">Extra Credit: Tetrahedron Circumscribed Sphere (+20 Points)</a></h2>
-
+<script>
+//This function extracts the components of two different vectors from text
+//fields in the web page and outputs the results in text and in a GUI
+function callProjVector() {
+    var ux = parseFloat(document.getElementById("ux_1").value);
+    var uy = parseFloat(document.getElementById("uy_1").value);
+    var uz = parseFloat(document.getElementById("uz_1").value);
+    u = vec3.fromValues(ux, uy, uz);
+    
+    var vx = parseFloat(document.getElementById("vx_1").value);
+    var vy = parseFloat(document.getElementById("vy_1").value);
+    var vz = parseFloat(document.getElementById("vz_1").value);
+    v = vec3.fromValues(vx, vy, vz);
+    
+    //Log the vec3 objects to the console to make sure everything was parsed correctly
+    console.log("Computing projection of " + vec3.str(u) + " onto " + vec3.str(v));
+    
+    //Perform the projection
+    var proj = projVector(u, v);
+    var projPerp = projPerpVector(u, v);
+    //Output result to two decimal places
+    document.getElementById("projAnswer").value = "(" + proj[0].toFixed(2) + ", " + proj[1].toFixed(2) + ", " + proj[2].toFixed(2) + ")";
+    document.getElementById("projPerpAnswer").value = "(" + projPerp[0].toFixed(2) + ", " + projPerp[1].toFixed(2) + ", " + projPerp[2].toFixed(2) + ")";
+    
+    
+    //Plot u, v, and the parallel/perpendicular projections using plot.ly
+    var uviz = { x: [0, ux], y: [0, uy], z: [0, uz],
+      mode: 'markers+lines', line: {color: '#0000ff', width: 10},
+      type: 'scatter3d', name: 'u',
+      marker: {color: '#0000ff', size: 4, symbol: 'circle'}
+    };
+    var vviz = { x: [0, vx], y: [0, vy], z: [0, vz],
+      mode: 'markers+lines', line: {color: '#ff0000', width: 10},
+      type: 'scatter3d', name:'v',
+      marker: {color: '#ff0000', size: 4, symbol: 'circle'}
+    };
+    var projviz = { x: [0, proj[0]], y: [0, proj[1]], z: [0, proj[2]],
+      mode: 'markers+lines', line: {color: '#ff00ff', width: 10},
+      type: 'scatter3d', name:'proj',
+      marker: {color: '#ff00ff', size: 4, symbol: 'circle'}
+    };
+    var projperpviz = { x: [0, projPerp[0]], y: [0, projPerp[1]], z: [0, projPerp[2]],
+      mode: 'markers+lines', line: {color: '#00ffff', width: 10, arrowhead:7},
+      type: 'scatter3d', name:'projperp',
+      marker: {color: '#00ffff', size: 4, symbol: 'circle'}
+    };
+    var axes = getAxesEqual([u, v, proj, projPerp]);
+    var data = [uviz, vviz, projviz, projperpviz, axes.x, axes.y, axes.z];
+    var layout = {
+      autosize: false, width: 500, height: 500,
+      margin: { l: 0, r: 0, b: 0, t: 65 }
+    };
+    Plotly.newPlot('projVis', data, layout);
+}
+</script>
 
 
 </body>
