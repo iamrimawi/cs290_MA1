@@ -83,7 +83,7 @@ function getTriangleCircumcenter(a, b, c) {
 //and compute the radius of the circumsphere
 //Inputs: a (vec3), b (vec3), c (vec3), d (vec3)
 //Returns: On object of the form {circumcenter: vec3, R: float (radius)}
-function getTetrahedranCircumsphere(a, b, c, d) {
+function getTetrahedronCircumsphere(a, b, c, d) {
     //EXTRA CREDIT
     return {Circumcenter:vec3.fromValues(0, 0, 0), Radius:0.0};
 }
