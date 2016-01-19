@@ -1,0 +1,152 @@
+<!--Programmer: Chris Tralie!-->
+<!--Purpose: Front end point chooser / debugger for triangle circumscriber function!-->
+<html>
+<head>
+<!-- This is how you include external scripts in Javascript !-->
+<script src = "GeomPrimitives.js"></script>
+<script src= "gl-matrix-min.js"></script>
+<script src = "plotly.min.js"></script>
+<body>
+
+<h2><a name = "angle">Task 5: Triangle Circumscribed Circle (15 points)</a></h2>
+
+In the GUI below, choose three points in the plane the plane (z = 0) to test your code.  Left click to select the first point, double left click to select the second point, and right click to select the third point.  The circumcenter of the resulting triangle will be re-computed real time and drawn as a black point as soon as all three points have been selected.  The circumcircle with the calculated radius will be drawn about that center<BR><BR>
+
+<b>NOTE: Your code is responsible for computing the triangle circumcenter and radius in 3D even though this is only testing it in 2D.</b>  Please write your own test cases in 3D to make sure it works (there will be some 3D examples included in the batch tests)<BR><BR>
+
+<table>
+<tr>
+<td width = "200">
+<table border = "1" cellpadding = 2>
+<tr><td align = "right"><font color = "#ff0000"><b>a</b></font></td><td><div id="a">Not Selected</div></td></tr>
+<tr><td align = "right"><font color = "#ff00ff"><b>b</b></font></td><td><div id="b">Not Selected</div></td></tr>
+<tr><td align = "right"><font color = "#0000ff"><b>c</b></font></td><td><div id="c">Not Selected</div></td></tr>
+<tr><td align = "right"><font color = "#000000"><b>Circumcenter</b></font></td><td><div id="Circumcenter"></div></td></tr>
+<tr><td align = "right">Radius</td><td><div id="Radius"></div></td></tr>
+</table>
+</td>
+<td>
+<canvas id = "segcanvas" width = "600" height = "600" style="border:1px solid #000000;">
+</canvas>
+</td>
+</tr>
+</table>
+
+<script>
+var a = null, b = null, c = null;
+var Circumcenter = null;
+var Radius = 0.0;
+var canvas = document.getElementById('segcanvas');
+var ctx = canvas.getContext("2d"); //For drawing
+//Need this to disable that annoying menu that pops up on right click
+canvas.addEventListener("contextmenu", function(e){ e.stopPropagation(); e.preventDefault(); return false; }); 
+
+function repaint() {
+    var dW = 5;
+    var W = canvas.width;
+    var H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    //Draw triangle points
+    if (!(a === null)) {
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(a[0]-dW, a[1]-dW, dW*2+1, dW*2+1);
+    }
+    if (!(b === null)) {
+        ctx.fillStyle = "#ff00ff";
+        ctx.fillRect(b[0]-dW, b[1]-dW, dW*2+1, dW*2+1);
+    }
+    if (!(c === null)) {
+        ctx.fillStyle = "#0000ff";
+        ctx.fillRect(c[0]-dW, c[1]-dW, dW*2+1, dW*2+1);
+    }
+    
+    //Draw triangle sides
+    if (!(a === null) && !(b === null)) {
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.moveTo(a[0], a[1]);
+        ctx.lineTo(b[0], b[1]);
+        ctx.stroke();
+    }
+    if (!(b === null) && !(c === null)) {
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.moveTo(b[0], b[1]);
+        ctx.lineTo(c[0], c[1]);
+        ctx.stroke();
+    }
+    if (!(a === null) && !(c === null)) {
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.moveTo(a[0], a[1]);
+        ctx.lineTo(c[0], c[1]);
+        ctx.stroke();
+    }
+
+    //Draw circumcenter and circumcircle
+    if (!(Circumcenter === null)) {
+        ctx.fillStyle = "#00ffff";
+        ctx.fillRect(Circumcenter[0]-dW, Circumcenter[1]-dW, dW*2+1, dW*2+1);
+    }
+}
+
+function finalizePointSelection() {
+	if (!(a === null) && !(b === null) && !(c === null)) {
+	    var res = getTriangleCircumcenter(a, b, c);
+	    Circumcenter = res.Circumcenter;
+	    Radius = res.Radius;
+	    if (Circumcenter === null) {
+	        document.getElementById('Circumcenter').innerHTML = "null";
+	    }
+	    else {
+	        document.getElementById('Circumcenter').innerHTML = "(" + Circumcenter[0].toFixed(1) + "," + Circumcenter[1].toFixed(1) + ")";
+	    }
+	    document.getElementById('Radius').innerHTML = "" + Radius;
+	}
+	repaint();
+}
+
+function selectPoint(evt) {
+    var mousePos = getMousePos(canvas, evt);
+    var X = mousePos.X;
+    var Y = mousePos.Y
+    var clickType = "LEFT";
+	evt.preventDefault();
+	if (evt.which) {
+	    if (evt.which == 3) clickType = "RIGHT";
+	    if (evt.which == 2) clickType = "MIDDLE";
+	}
+	else if (evt.button) {
+	    if (evt.button == 2) clickType = "RIGHT";
+	    if (evt.button == 4) clickType = "MIDDLE";
+	}
+    if (clickType == "LEFT") {
+        a = vec3.fromValues(X+0.0, Y+0.0, 0.0);
+        document.getElementById('a').innerHTML = "(" + a[0].toFixed(1) + "," + a[1].toFixed(1) + ")";
+    }
+    else {
+        b = vec3.fromValues(X+0.0, Y+0.0, 0.0);
+        document.getElementById('b').innerHTML = "(" + b[0].toFixed(1) + "," + b[1].toFixed(1) + ")";
+    }
+    finalizePointSelection();
+}
+
+function selectPointDblClick(evt) {
+    var mousePos = getMousePos(canvas, evt);
+    var X = mousePos.X;
+    var Y = mousePos.Y
+    c = vec3.fromValues(X+0.0, Y+0.0, 0.0);
+    document.getElementById('c').innerHTML = "(" + c[0].toFixed(1) + "," + c[1].toFixed(1) + ")";    
+    finalizePointSelection();
+}
+
+canvas.addEventListener("mousedown", selectPoint);
+canvas.addEventListener("touchstart", selectPoint); //Works on mobile devices!
+canvas.addEventListener("dblclick", selectPointDblClick);
+repaint();
+
+</script>
+
+
+</body>
+</html>

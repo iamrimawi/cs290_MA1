@@ -38,7 +38,7 @@ function getAngle(a, b, c) {
 //spanned by them
 //Inputs: a (vec3), b (vec3), c (vec3)
 //Returns: area (float)
-function getTrianlgeArea(a, b, c) {
+function getTriangleArea(a, b, c) {
     //TODO: Fill this in for task 2
     return 0; //This is a dummy value for now.  Replace with true area
 }
@@ -65,7 +65,28 @@ function getLineSegmentIntersection(a, b, c, d) {
     //no intersection interior to both segments
 }
 
+//Purpose: Given three points on a triangle abc, compute the triangle circumcenter
+//by intersecting two perpendicular bisectors from two different sides, and
+//compute the radius of the circumcircle
+//Inputs: a (vec3), b (vec3), c (vec3)
+//Returns: On object of the form {circumcenter: vec3, R: float (radius)}
+function getTriangleCircumcenter(a, b, c) {
+    //TODO: Fill this in for task 5
+    return {Circumcenter:vec3.fromValues(0, 0, 0), Radius:0.0};  //This is a dummy
+    //for now that shows how to return a JSON object from a function.  Replace
+    //vec3.fromValues(0, 0, 0) with the true circumcenter and 0.0 with the 
+    //true radius
+}
 
+//Purpose: Given three points on a 3D tetrahedron, compute the circumsphere
+//by intersecting two perpendicular bisectors from two different triangles
+//and compute the radius of the circumsphere
+//Inputs: a (vec3), b (vec3), c (vec3), d (vec3)
+//Returns: On object of the form {circumcenter: vec3, R: float (radius)}
+function getTetrahedranCircumsphere(a, b, c, d) {
+    //EXTRA CREDIT
+    return {Circumcenter:vec3.fromValues(0, 0, 0), Radius:0.0};
+}
 
 ///////////////////////////////////////////////////////////////////
 ///********           Plotting Utilities                 *******///
