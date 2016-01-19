@@ -1,0 +1,60 @@
+<!--Programmer: Chris Tralie!-->
+<html>
+<head>
+<!-- This is how you include external scripts in Javascript !-->
+<script src = "GeomPrimitives.js"></script>
+<script src= "gl-matrix-min.js"></script>
+<script src = "plotly.min.js"></script>
+<body>
+
+<h1><a name = "angle">Task 3: Point Above Or Below Plane? (8 points)</a></h1>
+
+<h2>Plane Points</h2>
+
+<table>
+<tr>
+<td><h2><font color = "#0000ff">a:</u> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "ax_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "ay_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "az_3" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+<tr>
+<td><h2><font color = "#ff0000">b:</font> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "bx_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "by_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "bz_3" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+<tr>
+<td><h2><font color = "#ff00ff">c:</font> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "cx_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "cy_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "cz_3" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+</table>
+
+<h2>Test Point</h2>
+<table>
+<tr>
+<td><h2><font color = "#ff00ff">c:</font> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "dx_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "dy_3" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "dz_3" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+</table>
+
+
+
+<button type = "button" onclick = "callComputeAboveBelow()">Compute Above Or Below</button>
+<table>
+<tr><td><h2>Above Or Below: </h2></td><td><input type="text" id="aboveBelowAnswer" size="10"> </input></td></tr>
+</table>
+
+
+
+
+</body>
+</html>

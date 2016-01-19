@@ -1,0 +1,114 @@
+<!--Programmer: Chris Tralie!-->
+<html>
+<head>
+<!-- This is how you include external scripts in Javascript !-->
+<script src = "GeomPrimitives.js"></script>
+<script src= "gl-matrix-min.js"></script>
+<script src = "plotly.min.js"></script>
+<body>
+
+<h2><a name = "example">Example: Vector Projection</a></h2>
+
+<table>
+<tr>
+<td>
+<!--Input Region!-->
+<table>
+<tr>
+<td><h2><font color = "#0000ff">u:</u> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "ux_1" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "uy_1" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "uz_1" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+<tr>
+<td><h2><font color = "#ff0000">v:</font> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "vx_1" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "vy_1" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "vz_1" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+</table>
+</td>
+<td>
+<!--Visualization Region!-->
+<table border = "1" width = 500 height = 500>
+<tr><td>
+<div id = "projVis">Visualization goes here once you compute the projection</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+
+<button type = "button" onclick = "callProjVector()">Compute Projection of u onto v</button>
+<BR><BR>
+
+<table>
+<tr><td><h2><font color = "#ff00ff"><u>Projection u onto v:</u> </h2></td><td><input type="text" id="projAnswer" size="10"> </input></td></tr>
+<tr><td><h2><font color = "#00ffff"><u>Perpendicular projection u onto v:</u> </h2></td><td><input type="text" id="projPerpAnswer" size="10"> </input></td></tr>
+</table>
+
+<BR><BR><HR>
+
+<h2><a name = "angle">Task 1: Angle Computation (5 points)</a></h2>
+
+<table>
+<tr>
+<td>
+<!--Input Region!-->
+<table>
+<tr>
+<td><h2><font color = "#0000ff">a:</u> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "ax_2" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "ay_2" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "az_2" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+<tr>
+<td><h2><font color = "#ff0000">b:</font> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "bx_2" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "by_2" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "bz_2" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+<tr>
+<td><h2><font color = "#ff00ff">c:</font> </h2></td>
+<td><h1>(</h1></td><td><input type="text" id = "cx_2" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "cy_2" size="3"></input></td><td><h1>,</h1></td>
+<td><input type="text" id = "cz_2" size="3"></input></td>
+<td><h1>)</h1></td>
+</tr>
+</table>
+</td>
+<td>
+<!--Visualization Region!-->
+<table border = "1" width = 500 height = 500>
+<tr><td>
+<div id = "angleVis">Visualization goes here once you compute the angle</div>
+</td></tr>
+</table>
+</td>
+</tr>
+</table>
+<button type = "button" onclick = "callComputeAngle()">Compute angle</button>
+<table>
+<tr><td><h2>Angle: </h2></td><td><input type="text" id="angleAnswer" size="10"> </input></td></tr>
+</table>
+
+<BR><BR><HR>
+
+<h2><a name = "pointinfront">Task 2: Point Above Or Below Plane? (5 points)</h2>
+
+<h2><a name = "area">Task 3: Area Computation (5 points)</a></h2>
+
+<h2><a name = "segment">Task 4: Line Segment Intersection (10 Points)</a></h2>
+
+<h2><a name = "circumcenter">Task 5: Triangle Circumscribed Circle (15 Points)</a></h2>
+
+<h2><a name = "circumsphere">Extra Credit: Tetrahedron Circumscribed Sphere (+20 Points)</a></h2>
+
+
+
+</body>
+</html>
