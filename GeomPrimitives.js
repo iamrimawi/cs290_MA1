@@ -78,8 +78,8 @@ function getTriangleCircumcenter(a, b, c) {
     //true radius
 }
 
-//Purpose: Given three points on a 3D tetrahedron, compute the circumsphere
-//by intersecting two perpendicular bisectors from two different triangles
+//Purpose: Given four points on a 3D tetrahedron, compute the circumsphere
+//by intersecting two perpendicular bisectors from two different triangles,
 //and compute the radius of the circumsphere
 //Inputs: a (vec3), b (vec3), c (vec3), d (vec3)
 //Returns: On object of the form {circumcenter: vec3, R: float (radius)}
