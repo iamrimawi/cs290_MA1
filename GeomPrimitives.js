@@ -25,12 +25,32 @@ function projPerpVector(u, v) {
     return projperpv;
 }
 
+//Purpose: To create vector from pt a to pt b
+//Inputs: a (vec3), b (vec3)
+//Returns: ab (vec3)
+functon makeVec(a,b){
+  var ab = vec3.create(); //creates empty vector ab
+  vec3.subtract(ab,b,a); //fills vector ab
+  return ab;
+}
+
 //Purpose: To compute the angle between the vectors ab and ac
 //Inputs: a (vec3), b (vec3), c (vec3)
 //Returns: angle (radians - float)
 function getAngle(a, b, c) {
     //TODO: Fill this in for task 1
-    return -1; //This is a dummy value for now.  Replace with true angle
+    var ab = makeVec(a,b); //creates vector ab
+    var ac = makeVec(a,c); //creates vector ac
+    //var ab = vec3.create(); //creates empty vector ab
+    //var ac = vec3.create(); //creates empty vector ac
+    //vec3.subtract(ab,b,a); //fills vector ab
+    //vec3.subtract(ac,c,a); //fills vector ac
+    //computes dot product of ab & ac and divides it by magnitude of ab times
+    //magnitude of ac
+    var x = (vec3.dot(ab,ac)/(vec3.length(ab)*(vec3.length(ac))));
+    var vecAngle = Math.acos(x); //inverse cosine of x, resulting in angle
+    return vecAngle; //returns angle between ab and ac
+
 }
 
 
@@ -40,7 +60,17 @@ function getAngle(a, b, c) {
 //Returns: area (float)
 function getTriangleArea(a, b, c) {
     //TODO: Fill this in for task 2
-    return 0; //This is a dummy value for now.  Replace with true area
+    var ab = makeVec(a,b); //creates vector ab
+    var ac = makeVec(a,c); //creates vector ac
+    var crossVec = vec3.create();
+    vec3.cross(crossVec,ab,ac); //cross product ab x ac
+    var mag = vec3.length(crossVec); //magnitude of cross product
+    //"the magnitude of the cross product of two vectors is the area of the
+    //parallelogram spanned by those two vectors" therefore the area of the
+    //triangle spanned by them is half of the area of the parallelogram spanned
+    //by the two vectors
+    var triArea = (mag/2); //computes area of triangle spaned by a,b,c
+    return triArea; //returns area
 }
 
 //Purpose: For a plane determined by the points a, b, and c, with the plane
@@ -60,8 +90,8 @@ function getAboveOrBelow(a, b, c, d) {
 //Returns: intersection (vec3) or null if no intersection
 function getLineSegmentIntersection(a, b, c, d) {
     //TODO: Fill this in for task 4
-    return null; //This is a dummy for now.  Fill in with the vec3 
-    //representing the intersection if it exists.  Only return null if 
+    return null; //This is a dummy for now.  Fill in with the vec3
+    //representing the intersection if it exists.  Only return null if
     //no intersection interior to both segments
 }
 
@@ -74,7 +104,7 @@ function getTriangleCircumcenter(a, b, c) {
     //TODO: Fill this in for task 5
     return {Circumcenter:vec3.fromValues(0, 0, 0), Radius:0.0};  //This is a dummy
     //for now that shows how to return a JSON object from a function.  Replace
-    //vec3.fromValues(0, 0, 0) with the true circumcenter and 0.0 with the 
+    //vec3.fromValues(0, 0, 0) with the true circumcenter and 0.0 with the
     //true radius
 }
 
@@ -126,5 +156,3 @@ function getMousePos(canvas, evt) {
 	    Y: evt.clientY - rect.top
 	};
 }
-
-
